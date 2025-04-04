@@ -25,6 +25,6 @@ func main() {
 		fmt.Println("The nodes are not equal")
 	}
 
-	fmt.Println("Node 1:", node1.Repr())
-	fmt.Println("Node 2:", node2.Repr())
+	fmt.Println("Node 1:", node1.String())
+	fmt.Println("Node 2:", node2.String())
 }

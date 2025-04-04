@@ -32,15 +32,15 @@ func TestTextNodeEquals(t *testing.T) {
 	}
 }
 
-func TestTextNodeRepr(t *testing.T) {
+func TestTextNodeString(t *testing.T) {
 	node := TextNode{
 		Type: LinkText,
 		Text: "Anchor text",
 		URL:  "https://www.boot.dev",
 	}
 
-	expected := `TextNode("Anchor text", "LinkText", "https://www.boot.dev")`
-	if node.Repr() != expected {
-		t.Errorf("Expected %s, got %s", expected, node.Repr())
+	expected := `TextNode("Anchor text", "link", "https://www.boot.dev")`
+	if node.String() != expected {
+		t.Errorf("Expected %s, got %s", expected, node.String())
 	}
 }

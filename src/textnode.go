@@ -24,23 +24,25 @@ func (tn TextNode) Equals(other TextNode) bool {
 	return tn.Type == other.Type && tn.Text == other.Text && tn.URL == other.URL
 }
 
-// Repr method to return a string representation of the TextNode object
-func (tn TextNode) Repr() string {
+// String method to return a string representation of the TextNode object
+func (tn TextNode) String() string {
 	// Convert TextType to its string representation
 	typeStr := ""
 	switch tn.Type {
 	case NormalText:
-		typeStr = "NormalText"
+		typeStr = "text"
 	case BoldText:
-		typeStr = "BoldText"
+		typeStr = "bold"
 	case ItalicText:
-		typeStr = "ItalicText"
+		typeStr = "italic"
 	case CodeText:
-		typeStr = "CodeText"
+		typeStr = "code"
 	case LinkText:
-		typeStr = "LinkText"
+		typeStr = "link"
 	case ImageText:
-		typeStr = "ImageText"
+		typeStr = "image"
+	default:
+		typeStr = "unknown"
 	}
 	return fmt.Sprintf("TextNode(%q, %q, %q)", tn.Text, typeStr, tn.URL)
 }
