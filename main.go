@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/Fepozopo/Heirloom-Kitchen/src"
+	"github.com/Fepozopo/heirloom-kitchen/src"
 )
 
 func main() {

@@ -1,3 +1,3 @@
-module github.com/Fepozopo/Heirloom-Kitchen
+module github.com/Fepozopo/heirloom-kitchen
 
 go 1.23.6
