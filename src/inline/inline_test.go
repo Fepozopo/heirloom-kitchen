@@ -129,3 +129,43 @@ func TestSplitNodesDelimiter(t *testing.T) {
 		t.Errorf("Expected %v, got %v", expected, result)
 	}
 }
+
+func TestExtractMarkdownImages(t *testing.T) {
+	t.Run("extract_markdown_images", func(t *testing.T) {
+		text := "This is text with a ![rick roll](https://i.imgur.com/aKaOqIh.gif) and ![obi wan](https://i.imgur.com/fJRm4Vk.jpeg)"
+		result := extractMarkdownImages(text)
+		expected := [][2]string{{"rick roll", "https://i.imgur.com/aKaOqIh.gif"}, {"obi wan", "https://i.imgur.com/fJRm4Vk.jpeg"}}
+		if !reflect.DeepEqual(result, expected) {
+			t.Errorf("extractMarkdownImages() = %v, want %v", result, expected)
+		}
+	})
+
+	t.Run("extract_markdown_images_with_no_images", func(t *testing.T) {
+		text := "This is text with no images"
+		result := extractMarkdownImages(text)
+		expected := [][2]string{}
+		if !reflect.DeepEqual(result, expected) {
+			t.Errorf("extractMarkdownImages() = %v, want %v", result, expected)
+		}
+	})
+}
+
+func TestExtractMarkdownLinks(t *testing.T) {
+	t.Run("extract_markdown_links", func(t *testing.T) {
+		text := "This is text with a link [to boot dev](https://www.boot.dev) and [to youtube](https://www.youtube.com/@bootdotdev)"
+		result := extractMarkdownLinks(text)
+		expected := [][2]string{{"to boot dev", "https://www.boot.dev"}, {"to youtube", "https://www.youtube.com/@bootdotdev"}}
+		if !reflect.DeepEqual(result, expected) {
+			t.Errorf("extractMarkdownLinks() = %v, want %v", result, expected)
+		}
+	})
+
+	t.Run("extract_markdown_links_with_no_links", func(t *testing.T) {
+		text := "This is text with no links"
+		result := extractMarkdownLinks(text)
+		expected := [][2]string{}
+		if !reflect.DeepEqual(result, expected) {
+			t.Errorf("extractMarkdownLinks() = %v, want %v", result, expected)
+		}
+	})
+}

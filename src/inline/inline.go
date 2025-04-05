@@ -2,6 +2,7 @@ package inline
 
 import (
 	"errors"
+	"regexp"
 	"strings"
 
 	"github.com/Fepozopo/heirloom-kitchen/src/nodes"
@@ -49,4 +50,42 @@ func SplitNodesDelimiter(oldNodes []nodes.TextNode, delimiter string, textType n
 	}
 
 	return newNodes, nil
+}
+
+// extractMarkdownImages extracts image URLs and alt text from markdown text.
+func extractMarkdownImages(text string) [][2]string {
+	// Create a slice to store the image URLs and alt text.
+	imageURLs := [][2]string{}
+
+	// Find all image URLs in the text using regex.
+	re := regexp.MustCompile(`!\[(.*?)\]\((.*?)\)`)
+	matches := re.FindAllStringSubmatch(text, -1)
+
+	if len(matches) > 0 {
+		for _, match := range matches {
+			// Append the alt text and image URL to the slice.
+			imageURLs = append(imageURLs, [2]string{match[1], match[2]})
+		}
+	}
+
+	return imageURLs
+}
+
+// extractMarkdownLinks extracts link URLs and anchor text from markdown text.
+func extractMarkdownLinks(text string) [][2]string {
+	// Create a slice to store the link URLs and anchor text.
+	linkURLs := [][2]string{}
+
+	// Find all link URLs in the text using regex.
+	re := regexp.MustCompile(`\[(.*?)\]\((.*?)\)`)
+	matches := re.FindAllStringSubmatch(text, -1)
+
+	if len(matches) > 0 {
+		for _, match := range matches {
+			// Append the anchor text and link URL to the slice.
+			linkURLs = append(linkURLs, [2]string{match[1], match[2]})
+		}
+	}
+
+	return linkURLs
 }
