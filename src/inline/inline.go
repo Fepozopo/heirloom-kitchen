@@ -89,3 +89,85 @@ func ExtractMarkdownLinks(text string) [][2]string {
 
 	return linkURLs
 }
+
+// SplitNodesImage splits a list of nodes based on image markdown syntax
+// It takes a list of TextNodes and returns a new list of TextNodes where
+// image markdown syntax is split into ImageText nodes.
+func SplitNodesImage(oldNodes []nodes.TextNode) []nodes.TextNode {
+	newNodes := []nodes.TextNode{}
+	// Regex to match image markdown syntax: ![alt text](image URL)
+	imagePattern := regexp.MustCompile(`!\[(.*?)\]\((.*?)\)`)
+
+	for _, node := range oldNodes {
+		// Skip nodes that are not NormalText
+		if node.Type != nodes.NormalText {
+			newNodes = append(newNodes, node)
+			continue
+		}
+
+		parts := imagePattern.Split(node.Text, -1)
+		matches := imagePattern.FindAllStringSubmatch(node.Text, -1)
+
+		for i, part := range parts {
+			// Add normal text parts
+			if part != "" {
+				newNodes = append(newNodes, nodes.TextNode{
+					Type: nodes.NormalText,
+					Text: part,
+					URL:  "",
+				})
+			}
+			// Add image nodes for matches
+			if i < len(matches) {
+				newNodes = append(newNodes, nodes.TextNode{
+					Type: nodes.ImageText,
+					Text: matches[i][1],
+					URL:  matches[i][2],
+				})
+			}
+		}
+	}
+
+	return newNodes
+}
+
+// SplitNodesLink splits a list of nodes based on link markdown syntax
+// It takes a list of TextNodes and returns a new list of TextNodes where
+// link markdown syntax is split into LinkText nodes.
+func SplitNodesLink(oldNodes []nodes.TextNode) []nodes.TextNode {
+	newNodes := []nodes.TextNode{}
+	// Regex to match link markdown syntax: [anchor text](link URL)
+	linkPattern := regexp.MustCompile(`\[(.*?)\]\((.*?)\)`)
+
+	for _, node := range oldNodes {
+		// Skip nodes that are not NormalText
+		if node.Type != nodes.NormalText {
+			newNodes = append(newNodes, node)
+			continue
+		}
+
+		parts := linkPattern.Split(node.Text, -1)
+		matches := linkPattern.FindAllStringSubmatch(node.Text, -1)
+
+		for i, part := range parts {
+			// Add normal text parts
+			if part != "" {
+				newNodes = append(newNodes, nodes.TextNode{
+					Type: nodes.NormalText,
+					Text: part,
+					URL:  "",
+				})
+			}
+			// Add link nodes for matches
+			if i < len(matches) {
+				newNodes = append(newNodes, nodes.TextNode{
+					Type: nodes.LinkText,
+					Text: matches[i][1],
+					URL:  matches[i][2],
+				})
+			}
+		}
+	}
+
+	return newNodes
+}
