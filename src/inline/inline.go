@@ -171,3 +171,20 @@ func SplitNodesLink(oldNodes []nodes.TextNode) []nodes.TextNode {
 
 	return newNodes
 }
+
+// TextToTextNodes converts a raw string of markdown text into a list of TextNodes.
+func TextToTextNodes(text string) []nodes.TextNode {
+	// Create an initial TextNode for the entire text
+	nodesList := []nodes.TextNode{
+		{Type: nodes.NormalText, Text: text, URL: ""},
+	}
+
+	// Process the Markdown syntax for each type: images, links, code blocks, bold, and italic text in that order
+	nodesList = SplitNodesImage(nodesList)                               // Process images
+	nodesList = SplitNodesLink(nodesList)                                // Process links
+	nodesList, _ = SplitNodesDelimiter(nodesList, "`", nodes.CodeText)   // Process code blocks
+	nodesList, _ = SplitNodesDelimiter(nodesList, "**", nodes.BoldText)  // Process bold text
+	nodesList, _ = SplitNodesDelimiter(nodesList, "*", nodes.ItalicText) // Process italic text
+
+	return nodesList
+}

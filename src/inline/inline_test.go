@@ -280,3 +280,31 @@ func TestSplitNodesLink(t *testing.T) {
 		}
 	})
 }
+
+func TestTextToTextNodes(t *testing.T) {
+	textTypeText := nodes.NormalText
+	textTypeBold := nodes.BoldText
+	textTypeItalic := nodes.ItalicText
+	textTypeCode := nodes.CodeText
+	textTypeImage := nodes.ImageText
+	textTypeLink := nodes.LinkText
+
+	text := "This is **text** with an *italic* word and a `code block` and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a [link](https://boot.dev)"
+	result := TextToTextNodes(text)
+	expected := []nodes.TextNode{
+		{Type: textTypeText, Text: "This is ", URL: ""},
+		{Type: textTypeBold, Text: "text", URL: ""},
+		{Type: textTypeText, Text: " with an ", URL: ""},
+		{Type: textTypeItalic, Text: "italic", URL: ""},
+		{Type: textTypeText, Text: " word and a ", URL: ""},
+		{Type: textTypeCode, Text: "code block", URL: ""},
+		{Type: textTypeText, Text: " and an ", URL: ""},
+		{Type: textTypeImage, Text: "obi wan image", URL: "https://i.imgur.com/fJRm4Vk.jpeg"},
+		{Type: textTypeText, Text: " and a ", URL: ""},
+		{Type: textTypeLink, Text: "link", URL: "https://boot.dev"},
+	}
+
+	if !reflect.DeepEqual(result, expected) {
+		t.Errorf("Expected %v, got %v", expected, result)
+	}
+}
