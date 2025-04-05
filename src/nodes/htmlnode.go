@@ -3,6 +3,7 @@ package nodes
 import (
 	"errors"
 	"fmt"
+	"sort"
 	"strings"
 )
 
@@ -13,14 +14,17 @@ type HTMLNode interface {
 
 // propsToHTML converts a map of attributes to an HTML attribute string.
 func propsToHTML(props map[string]string) string {
-	if len(props) == 0 {
-		return ""
+	keys := make([]string, 0, len(props))
+	for key := range props {
+		keys = append(keys, key)
 	}
-	parts := make([]string, 0, len(props))
-	for key, value := range props {
-		parts = append(parts, fmt.Sprintf(`%s="%s"`, key, value))
+	sort.Strings(keys) // Sort keys for consistent order
+
+	result := ""
+	for _, key := range keys {
+		result += key + `="` + props[key] + `" `
 	}
-	return strings.Join(parts, " ")
+	return strings.TrimSpace(result)
 }
 
 // LeafNode represents an HTML node with a tag and a value.
