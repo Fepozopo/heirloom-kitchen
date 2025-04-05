@@ -1,4 +1,4 @@
-package src
+package nodes
 
 import (
 	"testing"

@@ -1,4 +1,4 @@
-package src
+package nodes
 
 import (
 	"errors"
@@ -13,7 +13,7 @@ type HTMLNode interface {
 
 // propsToHTML converts a map of attributes to an HTML attribute string.
 func propsToHTML(props map[string]string) string {
-	if props == nil || len(props) == 0 {
+	if len(props) == 0 {
 		return ""
 	}
 	parts := make([]string, 0, len(props))
@@ -60,7 +60,7 @@ func (p *ParentNode) ToHTML() (string, error) {
 	if p.Tag == "" {
 		return "", errors.New("the tag of a parent node cannot be empty")
 	}
-	if p.Children == nil || len(p.Children) == 0 {
+	if len(p.Children) == 0 {
 		return "", errors.New("the children of a parent node cannot be nil or empty")
 	}
 

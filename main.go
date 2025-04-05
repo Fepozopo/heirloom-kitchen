@@ -3,18 +3,18 @@ package main
 import (
 	"fmt"
 
-	"github.com/Fepozopo/heirloom-kitchen/src"
+	"github.com/Fepozopo/heirloom-kitchen/src/nodes"
 )
 
 func main() {
-	node1 := src.TextNode{
-		Type: src.LinkText,
+	node1 := nodes.TextNode{
+		Type: nodes.LinkText,
 		Text: "This is some anchor text",
 		URL:  "https://www.boot.dev",
 	}
 
-	node2 := src.TextNode{
-		Type: src.BoldText,
+	node2 := nodes.TextNode{
+		Type: nodes.BoldText,
 		Text: "This is some bold text",
 		URL:  "",
 	}
