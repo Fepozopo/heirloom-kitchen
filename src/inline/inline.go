@@ -53,7 +53,7 @@ func SplitNodesDelimiter(oldNodes []nodes.TextNode, delimiter string, textType n
 }
 
 // extractMarkdownImages extracts image URLs and alt text from markdown text.
-func extractMarkdownImages(text string) [][2]string {
+func ExtractMarkdownImages(text string) [][2]string {
 	// Create a slice to store the image URLs and alt text.
 	imageURLs := [][2]string{}
 
@@ -72,7 +72,7 @@ func extractMarkdownImages(text string) [][2]string {
 }
 
 // extractMarkdownLinks extracts link URLs and anchor text from markdown text.
-func extractMarkdownLinks(text string) [][2]string {
+func ExtractMarkdownLinks(text string) [][2]string {
 	// Create a slice to store the link URLs and anchor text.
 	linkURLs := [][2]string{}
 
