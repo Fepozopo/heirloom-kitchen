@@ -27,6 +27,6 @@ func main() {
 
 	// Start the HTTP server to serve the public directory
 	http.Handle("/", http.FileServer(http.Dir("public")))
-	fmt.Println("Server started at http://localhost:8080")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	fmt.Println("Server started at http://localhost:8888")
+	log.Fatal(http.ListenAndServe(":8888", nil))
 }
