@@ -1,6 +1,6 @@
-# Pantry of the Past
+# Culinary Keepsakes
 
-Pantry of the Past is a project designed to store recipes I've came across over the years that I thought were worth saving. For questions or feedback, please reach out to [Fepozopo](https://github.com/Fepozopo).
+Culinary Keepsakes is a project designed to store recipes I've came across over the years that I thought were worth saving. For questions or feedback, please reach out to [Fepozopo](https://github.com/Fepozopo).
 
 ## Features
 
@@ -10,11 +10,11 @@ Pantry of the Past is a project designed to store recipes I've came across over 
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/Fepozopo/pantry-of-the-past.git
+    git clone https://github.com/Fepozopo/culinary-keepsakes.git
     ```
 2. Navigate to the project directory:
     ```bash
-    cd pantry-of-the-past
+    cd culinary-keepsakes
     ```
 
 ## Usage
@@ -23,7 +23,7 @@ Pantry of the Past is a project designed to store recipes I've came across over 
     ```bash
     ./build.sh
     ```
-2. Open your browser and navigate to `http://localhost:8080/pantry-of-the-past/`.
+2. Open your browser and navigate to `http://localhost:8080/culinary-keepsakes/`.
 
 ## Contributing
 
