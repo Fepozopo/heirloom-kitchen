@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/Fepozopo/pantry-of-the-past/src/website"
 )
@@ -14,6 +15,12 @@ func main() {
 	basepath := "/"
 	if len(os.Args) > 1 {
 		basepath = os.Args[1]
+		if !strings.HasSuffix(basepath, "/") {
+			basepath += "/"
+		}
+		if !strings.HasPrefix(basepath, "/") {
+			basepath = "/" + basepath
+		}
 	}
 
 	// Copy static files to docs directory
@@ -32,8 +39,10 @@ func main() {
 	}
 	fmt.Println("Pages generated successfully.")
 
-	// Start the HTTP server to serve the docs directory
-	http.Handle("/", http.FileServer(http.Dir("docs")))
-	fmt.Println("Server started at http://localhost:8080")
+	// Start the HTTP server to serve the docs directory, including static files with basepath
+	fs := http.FileServer(http.Dir("docs"))
+	http.Handle(basepath, http.StripPrefix(basepath, fs))
+
+	fmt.Println("Server started at http://localhost:8080" + basepath)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
