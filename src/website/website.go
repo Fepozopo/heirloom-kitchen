@@ -133,3 +133,50 @@ func GeneratePage(fromPath, templatePath, destPath string) error {
 
 	return nil
 }
+
+// GeneratePagesRecursive crawls every entry in the content directory and generates a new HTML page
+// for each markdown file it finds using the same template. The generated pages are stored in the destDirPath directory.
+func GeneratePagesRecursive(contentDirPath, templatePath, destDirPath string) error {
+	// Ensure the destination directory exists
+	err := os.MkdirAll(destDirPath, os.ModePerm)
+	if err != nil {
+		return fmt.Errorf("failed to create destination directory: %w", err)
+	}
+
+	// Walk through the content directory
+	err = filepath.Walk(contentDirPath, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+
+		// Skip directories, but ensure subdirectories are created in the destination path
+		if info.IsDir() {
+			relPath, err := filepath.Rel(contentDirPath, path)
+			if err != nil {
+				return err
+			}
+			newDestDir := filepath.Join(destDirPath, relPath)
+			return os.MkdirAll(newDestDir, os.ModePerm)
+		}
+
+		// Process markdown files
+		if strings.HasSuffix(info.Name(), ".md") {
+			relPath, err := filepath.Rel(contentDirPath, path)
+			if err != nil {
+				return err
+			}
+			outputFile := filepath.Join(destDirPath, strings.TrimSuffix(relPath, ".md")+".html")
+			return GeneratePage(path, templatePath, outputFile)
+		}
+
+		return nil
+	})
+
+	if err != nil {
+		return fmt.Errorf("failed to generate pages: %w", err)
+	}
+
+	// Print a message to indicate that all pages have been generated
+	fmt.Printf("All pages have been generated in %s\n", destDirPath)
+	return nil
+}

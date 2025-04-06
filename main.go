@@ -17,16 +17,16 @@ func main() {
 	}
 	fmt.Println("Static files copied successfully.")
 
-	// Generate the index page
-	err = website.GeneratePage("content/index.md", "template.html", "public/index.html")
+	// Generate the markdown pages
+	err = website.GeneratePagesRecursive("content", "template.html", "public")
 	if err != nil {
-		fmt.Println("Error generating index page:", err)
+		fmt.Println("Error generating pages:", err)
 		return
 	}
-	fmt.Println("Index page generated successfully.")
+	fmt.Println("Pages generated successfully.")
 
 	// Start the HTTP server to serve the public directory
 	http.Handle("/", http.FileServer(http.Dir("public")))
-	fmt.Println("Server started at http://localhost:8888")
-	log.Fatal(http.ListenAndServe(":8888", nil))
+	fmt.Println("Server started at http://localhost:8080")
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
