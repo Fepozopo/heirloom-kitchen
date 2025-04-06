@@ -220,14 +220,44 @@ func BlockToHTMLNode(block string) nodes.HTMLNode {
 		// Preserve line breaks within the blockquote
 		lines := strings.Split(block, "\n")
 		quoteContent := []nodes.HTMLNode{}
+		currentParagraph := ""
+
 		for _, line := range lines {
 			trimmedLine := strings.TrimSpace(line[2:]) // Remove "> " prefix
+			if trimmedLine == "" {
+				// If the line is blank, finalize the current paragraph
+				if currentParagraph != "" {
+					quoteContent = append(quoteContent, &nodes.LeafNode{
+						Tag:   "span",
+						Value: currentParagraph,
+						Props: nil,
+					})
+					quoteContent = append(quoteContent, &nodes.LeafNode{
+						Tag:   "br",
+						Value: "",
+						Props: nil,
+					})
+					currentParagraph = ""
+				}
+			} else {
+				// Append the line to the current paragraph
+				if currentParagraph != "" {
+					currentParagraph += " " + trimmedLine
+				} else {
+					currentParagraph = trimmedLine
+				}
+			}
+		}
+
+		// Add the last paragraph if it exists
+		if currentParagraph != "" {
 			quoteContent = append(quoteContent, &nodes.LeafNode{
-				Tag:   "p",
-				Value: trimmedLine,
+				Tag:   "span",
+				Value: currentParagraph,
 				Props: nil,
 			})
 		}
+
 		return &nodes.ParentNode{
 			Tag:      "blockquote",
 			Children: quoteContent,

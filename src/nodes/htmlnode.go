@@ -42,8 +42,8 @@ func (l *LeafNode) ToHTML() (string, error) {
 		return l.Value, nil
 	}
 
-	// Special case for <img> tags, which are self-closing and don't require a value
-	if l.Tag == "img" {
+	// Special case for <img> and <br> tags, which are self-closing and don't require a value
+	if l.Tag == "img" || l.Tag == "br" {
 		attrStr := PropsToHTML(l.Props)
 		return fmt.Sprintf("<%s %s />", l.Tag, attrStr), nil
 	}
