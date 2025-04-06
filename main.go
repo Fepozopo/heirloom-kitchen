@@ -3,28 +3,15 @@ package main
 import (
 	"fmt"
 
-	"github.com/Fepozopo/heirloom-kitchen/src/nodes"
+	"github.com/Fepozopo/heirloom-kitchen/src/website"
 )
 
 func main() {
-	node1 := nodes.TextNode{
-		Type: nodes.Link,
-		Text: "This is some anchor text",
-		URL:  "https://www.boot.dev",
+	// Copy static files to public directory
+	err := website.CopyStaticToPublic()
+	if err != nil {
+		fmt.Println("Error copying static files:", err)
+		return
 	}
-
-	node2 := nodes.TextNode{
-		Type: nodes.Bold,
-		Text: "This is some bold text",
-		URL:  "",
-	}
-
-	if node1.Equals(node2) {
-		fmt.Println("The nodes are equal")
-	} else {
-		fmt.Println("The nodes are not equal")
-	}
-
-	fmt.Println("Node 1:", node1.String())
-	fmt.Println("Node 2:", node2.String())
+	fmt.Println("Static files copied successfully.")
 }
