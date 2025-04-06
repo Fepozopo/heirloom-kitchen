@@ -118,8 +118,8 @@ func TestPropsToHTML(t *testing.T) {
 	}
 
 	expected := `key1="value1" key2="value2"`
-	if propsToHTML(props) != expected {
-		t.Errorf("Expected %s, got %s", expected, propsToHTML(props))
+	if PropsToHTML(props) != expected {
+		t.Errorf("Expected %s, got %s", expected, PropsToHTML(props))
 	}
 }
 
@@ -130,7 +130,7 @@ func TestTextNodeToHTMLNode(t *testing.T) {
 		URL:  "https://www.boot.dev",
 	}
 
-	node, err := textNodeToHTMLNode(tn)
+	node, err := TextNodeToHTMLNode(tn)
 	if err != nil {
 		t.Errorf("Expected no error, got %v", err)
 	}

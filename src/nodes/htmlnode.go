@@ -12,8 +12,8 @@ type HTMLNode interface {
 	ToHTML() (string, error)
 }
 
-// propsToHTML converts a map of attributes to an HTML attribute string.
-func propsToHTML(props map[string]string) string {
+// PropsToHTML converts a map of attributes to an HTML attribute string.
+func PropsToHTML(props map[string]string) string {
 	keys := make([]string, 0, len(props))
 	for key := range props {
 		keys = append(keys, key)
@@ -45,7 +45,7 @@ func (l *LeafNode) ToHTML() (string, error) {
 	if l.Value == "" {
 		return "", errors.New("the value of a leaf node cannot be empty")
 	}
-	attrStr := propsToHTML(l.Props)
+	attrStr := PropsToHTML(l.Props)
 	if attrStr != "" {
 		return fmt.Sprintf("<%s %s>%s</%s>", l.Tag, attrStr, l.Value, l.Tag), nil
 	}
@@ -68,7 +68,7 @@ func (p *ParentNode) ToHTML() (string, error) {
 		return "", errors.New("the children of a parent node cannot be nil or empty")
 	}
 
-	attrStr := propsToHTML(p.Props)
+	attrStr := PropsToHTML(p.Props)
 	var result string
 	if attrStr != "" {
 		result = fmt.Sprintf("<%s %s>", p.Tag, attrStr)
@@ -88,8 +88,8 @@ func (p *ParentNode) ToHTML() (string, error) {
 	return result, nil
 }
 
-// textNodeToHTMLNode converts a TextNode to an HTMLNode.
-func textNodeToHTMLNode(tn TextNode) (HTMLNode, error) {
+// TextNodeToHTMLNode converts a TextNode to an HTMLNode.
+func TextNodeToHTMLNode(tn TextNode) (HTMLNode, error) {
 	switch tn.Type {
 	case Normal:
 		// Leaf node without a tag, just plain text.

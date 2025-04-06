@@ -1,6 +1,11 @@
 package blocks
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+
+	"github.com/Fepozopo/heirloom-kitchen/src/nodes"
+)
 
 // Unit tests for MarkdownToBlocks
 func TestMarkdownToBlocks(t *testing.T) {
@@ -118,5 +123,116 @@ func TestBlockToBlockType(t *testing.T) {
 				t.Errorf("BlockToBlockType(%q) = %q, want %q", tt.block, got, tt.want)
 			}
 		})
+	}
+}
+
+func TestTextToChildren(t *testing.T) {
+	result := TextToChildren("This is **bold** and *italic*.")
+	expected := []nodes.HTMLNode{
+		&nodes.LeafNode{Tag: "", Value: "This is ", Props: nil},
+		&nodes.LeafNode{Tag: "b", Value: "bold", Props: nil},
+		&nodes.LeafNode{Tag: "", Value: " and ", Props: nil},
+		&nodes.LeafNode{Tag: "i", Value: "italic", Props: nil},
+		&nodes.LeafNode{Tag: "", Value: ".", Props: nil},
+	}
+	if !reflect.DeepEqual(result, expected) {
+		t.Errorf("Expected %v, got %v", expected, result)
+	}
+}
+
+func TestBlockToHTMLNodeHeading(t *testing.T) {
+	block := "# Heading 1"
+	result := BlockToHTMLNode(block)
+	expected := &nodes.ParentNode{
+		Tag: "h1",
+		Children: []nodes.HTMLNode{
+			&nodes.LeafNode{Tag: "", Value: "Heading 1", Props: nil},
+		},
+	}
+	if !reflect.DeepEqual(result, expected) {
+		t.Errorf("Expected %v, got %v", expected, result)
+	}
+}
+
+func TestBlockToHTMLNodeParagraph(t *testing.T) {
+	block := "This is a paragraph."
+	result := BlockToHTMLNode(block)
+	expected := &nodes.ParentNode{
+		Tag: "p",
+		Children: []nodes.HTMLNode{
+			&nodes.LeafNode{Tag: "", Value: "This is a paragraph.", Props: nil},
+		},
+	}
+	if !reflect.DeepEqual(result, expected) {
+		t.Errorf("Expected %v, got %v", expected, result)
+	}
+}
+
+func TestBlockToHTMLNodeUnorderedList(t *testing.T) {
+	block := "* Item 1\n* Item 2"
+	result := BlockToHTMLNode(block)
+	expected := &nodes.ParentNode{
+		Tag: "ul",
+		Children: []nodes.HTMLNode{
+			&nodes.ParentNode{
+				Tag: "li",
+				Children: []nodes.HTMLNode{
+					&nodes.LeafNode{Tag: "", Value: "Item 1", Props: nil},
+				},
+			},
+			&nodes.ParentNode{
+				Tag: "li",
+				Children: []nodes.HTMLNode{
+					&nodes.LeafNode{Tag: "", Value: "Item 2", Props: nil},
+				},
+			},
+		},
+	}
+	if !reflect.DeepEqual(result, expected) {
+		t.Errorf("Expected %v, got %v", expected, result)
+	}
+}
+
+func TestMarkdownToHTMLNode(t *testing.T) {
+	markdown := "# Title\n\nThis is a **bold** paragraph.\n\n* Item 1\n* Item 2"
+	result := MarkdownToHTMLNode(markdown)
+	expected := &nodes.ParentNode{
+		Tag: "div",
+		Children: []nodes.HTMLNode{
+			&nodes.ParentNode{
+				Tag: "h1",
+				Children: []nodes.HTMLNode{
+					&nodes.LeafNode{Tag: "", Value: "Title", Props: nil},
+				},
+			},
+			&nodes.ParentNode{
+				Tag: "p",
+				Children: []nodes.HTMLNode{
+					&nodes.LeafNode{Tag: "", Value: "This is a ", Props: nil},
+					&nodes.LeafNode{Tag: "b", Value: "bold", Props: nil},
+					&nodes.LeafNode{Tag: "", Value: " paragraph.", Props: nil},
+				},
+			},
+			&nodes.ParentNode{
+				Tag: "ul",
+				Children: []nodes.HTMLNode{
+					&nodes.ParentNode{
+						Tag: "li",
+						Children: []nodes.HTMLNode{
+							&nodes.LeafNode{Tag: "", Value: "Item 1", Props: nil},
+						},
+					},
+					&nodes.ParentNode{
+						Tag: "li",
+						Children: []nodes.HTMLNode{
+							&nodes.LeafNode{Tag: "", Value: "Item 2", Props: nil},
+						},
+					},
+				},
+			},
+		},
+	}
+	if !reflect.DeepEqual(result, expected) {
+		t.Errorf("Expected %v, got %v", expected, result)
 	}
 }

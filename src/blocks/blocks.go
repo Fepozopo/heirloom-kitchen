@@ -4,6 +4,9 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+
+	"github.com/Fepozopo/heirloom-kitchen/src/inline"
+	"github.com/Fepozopo/heirloom-kitchen/src/nodes"
 )
 
 type BlockType int
@@ -121,4 +124,103 @@ func BlockToBlockType(block string) BlockType {
 
 	// If none of the above, the block is a paragraph
 	return Paragraph
+}
+
+// TextToChildren converts a string of text into a list of HTMLNode objects.
+func TextToChildren(text string) []nodes.HTMLNode {
+	textNodes := inline.TextToTextNodes(text)
+	htmlNodes := []nodes.HTMLNode{}
+	for _, textNode := range textNodes {
+		htmlNode, _ := nodes.TextNodeToHTMLNode(textNode)
+		htmlNodes = append(htmlNodes, htmlNode)
+	}
+	return htmlNodes
+}
+
+// BlockToHTMLNode converts a block of markdown into an appropriate HTMLNode.
+func BlockToHTMLNode(block string) nodes.HTMLNode {
+	blockType := BlockToBlockType(block)
+
+	switch blockType {
+	case Heading:
+		level := len(strings.SplitN(block, " ", 2)[0]) // Count the number of # symbols
+		textContent := strings.TrimSpace(block[level+1:])
+		return &nodes.ParentNode{
+			Tag:      "h" + strconv.Itoa(level),
+			Children: TextToChildren(textContent),
+		}
+
+	case UnorderedList:
+		items := []nodes.HTMLNode{}
+		for _, line := range strings.Split(block, "\n") {
+			items = append(items, &nodes.ParentNode{
+				Tag:      "li",
+				Children: TextToChildren(strings.TrimSpace(line[2:])),
+			})
+		}
+		return &nodes.ParentNode{
+			Tag:      "ul",
+			Children: items,
+		}
+
+	case OrderedList:
+		items := []nodes.HTMLNode{}
+		for _, line := range strings.Split(block, "\n") {
+			items = append(items, &nodes.ParentNode{
+				Tag:      "li",
+				Children: TextToChildren(strings.TrimSpace(line[3:])),
+			})
+		}
+		return &nodes.ParentNode{
+			Tag:      "ol",
+			Children: items,
+		}
+
+	case Code:
+		codeContent := strings.TrimSpace(block[3 : len(block)-3])
+		return &nodes.ParentNode{
+			Tag: "pre",
+			Children: []nodes.HTMLNode{
+				&nodes.LeafNode{
+					Tag:   "code",
+					Value: codeContent,
+					Props: nil,
+				},
+			},
+		}
+
+	case Quote:
+		quoteContent := strings.Join(func(lines []string) []string {
+			for i, line := range lines {
+				lines[i] = strings.TrimSpace(line[2:])
+			}
+			return lines
+		}(strings.Split(block, "\n")), "\n")
+		return &nodes.ParentNode{
+			Tag:      "blockquote",
+			Children: TextToChildren(quoteContent),
+		}
+
+	default:
+		return &nodes.ParentNode{
+			Tag:      "p",
+			Children: TextToChildren(block),
+		}
+	}
+}
+
+// MarkdownToHTMLNode converts a full markdown document into a single HTMLNode.
+func MarkdownToHTMLNode(markdown string) nodes.HTMLNode {
+	blocks := MarkdownToBlocks(markdown)
+	parentNode := &nodes.ParentNode{
+		Tag:      "div",
+		Children: []nodes.HTMLNode{},
+	}
+
+	for _, block := range blocks {
+		blockHTMLNode := BlockToHTMLNode(block)
+		parentNode.Children = append(parentNode.Children, blockHTMLNode)
+	}
+
+	return parentNode
 }
