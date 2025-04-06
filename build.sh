@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# Replace "REPO_NAME" with your actual GitHub repository name
-REPO_NAME="/culinary-keepsakes/"
+REPO_NAME="culinary-keepsakes"
 
 # Compile the Go application
 go build -o bin/app src/main.go
@@ -26,4 +25,4 @@ echo "Build successful."
 echo "Running the application with repository name: $REPO_NAME"
 
 # Execute the compiled application with the repository name as an argument
-./bin/app "$REPO_NAME"
+./bin/app "/$REPO_NAME/"
