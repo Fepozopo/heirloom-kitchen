@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Replace "REPO_NAME" with your actual GitHub repository name
-REPO_NAME="pantry-of-the-past"
+REPO_NAME="/pantry-of-the-past/"
 
 # Compile the Go application
 go build -o bin/pantry src/main.go
