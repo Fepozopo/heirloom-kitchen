@@ -91,32 +91,32 @@ func (p *ParentNode) ToHTML() (string, error) {
 // textNodeToHTMLNode converts a TextNode to an HTMLNode.
 func textNodeToHTMLNode(tn TextNode) (HTMLNode, error) {
 	switch tn.Type {
-	case NormalText:
+	case Normal:
 		// Leaf node without a tag, just plain text.
 		return &LeafNode{
 			Tag:   "",
 			Value: tn.Text,
 			Props: nil,
 		}, nil
-	case BoldText:
+	case Bold:
 		return &LeafNode{
 			Tag:   "b",
 			Value: tn.Text,
 			Props: nil,
 		}, nil
-	case ItalicText:
+	case Italic:
 		return &LeafNode{
 			Tag:   "i",
 			Value: tn.Text,
 			Props: nil,
 		}, nil
-	case CodeText:
+	case Code:
 		return &LeafNode{
 			Tag:   "code",
 			Value: tn.Text,
 			Props: nil,
 		}, nil
-	case LinkText:
+	case Link:
 		return &LeafNode{
 			Tag:   "a",
 			Value: tn.Text,
@@ -124,7 +124,7 @@ func textNodeToHTMLNode(tn TextNode) (HTMLNode, error) {
 				"href": tn.URL,
 			},
 		}, nil
-	case ImageText:
+	case Image:
 		// For an image, the value is empty (or could be used as inner text for fallback)
 		return &LeafNode{
 			Tag:   "img",

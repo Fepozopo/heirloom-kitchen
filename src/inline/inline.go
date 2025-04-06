@@ -14,7 +14,7 @@ func SplitNodesDelimiter(oldNodes []nodes.TextNode, delimiter string, textType n
 
 	for _, node := range oldNodes {
 		// Only process nodes that are of the "text" type
-		if node.Type != nodes.NormalText {
+		if node.Type != nodes.Normal {
 			newNodes = append(newNodes, node)
 			continue
 		}
@@ -33,7 +33,7 @@ func SplitNodesDelimiter(oldNodes []nodes.TextNode, delimiter string, textType n
 				// Even indices are regular text (non-delimited)
 				if part != "" {
 					newNodes = append(newNodes, nodes.TextNode{
-						Type: nodes.NormalText,
+						Type: nodes.Normal,
 						Text: part,
 						URL:  node.URL,
 					})
@@ -100,7 +100,7 @@ func SplitNodesImage(oldNodes []nodes.TextNode) []nodes.TextNode {
 
 	for _, node := range oldNodes {
 		// Skip nodes that are not NormalText
-		if node.Type != nodes.NormalText {
+		if node.Type != nodes.Normal {
 			newNodes = append(newNodes, node)
 			continue
 		}
@@ -112,7 +112,7 @@ func SplitNodesImage(oldNodes []nodes.TextNode) []nodes.TextNode {
 			// Add normal text parts
 			if part != "" {
 				newNodes = append(newNodes, nodes.TextNode{
-					Type: nodes.NormalText,
+					Type: nodes.Normal,
 					Text: part,
 					URL:  "",
 				})
@@ -120,7 +120,7 @@ func SplitNodesImage(oldNodes []nodes.TextNode) []nodes.TextNode {
 			// Add image nodes for matches
 			if i < len(matches) {
 				newNodes = append(newNodes, nodes.TextNode{
-					Type: nodes.ImageText,
+					Type: nodes.Image,
 					Text: matches[i][1],
 					URL:  matches[i][2],
 				})
@@ -141,7 +141,7 @@ func SplitNodesLink(oldNodes []nodes.TextNode) []nodes.TextNode {
 
 	for _, node := range oldNodes {
 		// Skip nodes that are not NormalText
-		if node.Type != nodes.NormalText {
+		if node.Type != nodes.Normal {
 			newNodes = append(newNodes, node)
 			continue
 		}
@@ -153,7 +153,7 @@ func SplitNodesLink(oldNodes []nodes.TextNode) []nodes.TextNode {
 			// Add normal text parts
 			if part != "" {
 				newNodes = append(newNodes, nodes.TextNode{
-					Type: nodes.NormalText,
+					Type: nodes.Normal,
 					Text: part,
 					URL:  "",
 				})
@@ -161,7 +161,7 @@ func SplitNodesLink(oldNodes []nodes.TextNode) []nodes.TextNode {
 			// Add link nodes for matches
 			if i < len(matches) {
 				newNodes = append(newNodes, nodes.TextNode{
-					Type: nodes.LinkText,
+					Type: nodes.Link,
 					Text: matches[i][1],
 					URL:  matches[i][2],
 				})
@@ -176,15 +176,15 @@ func SplitNodesLink(oldNodes []nodes.TextNode) []nodes.TextNode {
 func TextToTextNodes(text string) []nodes.TextNode {
 	// Create an initial TextNode for the entire text
 	nodesList := []nodes.TextNode{
-		{Type: nodes.NormalText, Text: text, URL: ""},
+		{Type: nodes.Normal, Text: text, URL: ""},
 	}
 
 	// Process the Markdown syntax for each type: images, links, code blocks, bold, and italic text in that order
-	nodesList = SplitNodesImage(nodesList)                               // Process images
-	nodesList = SplitNodesLink(nodesList)                                // Process links
-	nodesList, _ = SplitNodesDelimiter(nodesList, "`", nodes.CodeText)   // Process code blocks
-	nodesList, _ = SplitNodesDelimiter(nodesList, "**", nodes.BoldText)  // Process bold text
-	nodesList, _ = SplitNodesDelimiter(nodesList, "*", nodes.ItalicText) // Process italic text
+	nodesList = SplitNodesImage(nodesList)                           // Process images
+	nodesList = SplitNodesLink(nodesList)                            // Process links
+	nodesList, _ = SplitNodesDelimiter(nodesList, "`", nodes.Code)   // Process code blocks
+	nodesList, _ = SplitNodesDelimiter(nodesList, "**", nodes.Bold)  // Process bold text
+	nodesList, _ = SplitNodesDelimiter(nodesList, "*", nodes.Italic) // Process italic text
 
 	return nodesList
 }

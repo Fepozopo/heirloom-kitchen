@@ -125,7 +125,7 @@ func TestPropsToHTML(t *testing.T) {
 
 func TestTextNodeToHTMLNode(t *testing.T) {
 	tn := TextNode{
-		Type: LinkText,
+		Type: Link,
 		Text: "This is some anchor text",
 		URL:  "https://www.boot.dev",
 	}

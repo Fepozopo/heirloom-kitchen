@@ -8,13 +8,13 @@ import (
 
 func main() {
 	node1 := nodes.TextNode{
-		Type: nodes.LinkText,
+		Type: nodes.Link,
 		Text: "This is some anchor text",
 		URL:  "https://www.boot.dev",
 	}
 
 	node2 := nodes.TextNode{
-		Type: nodes.BoldText,
+		Type: nodes.Bold,
 		Text: "This is some bold text",
 		URL:  "",
 	}

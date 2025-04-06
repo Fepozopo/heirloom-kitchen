@@ -8,65 +8,55 @@ import (
 )
 
 func TestSplitNodesDelimiter(t *testing.T) {
-	// Simple code block delimiter
-	textTypeText := nodes.NormalText
-	textTypeCode := nodes.CodeText
-
 	node := nodes.TextNode{
-		Type: textTypeText,
+		Type: nodes.Normal,
 		Text: "This is text with a `code block` word",
 		URL:  "",
 	}
-	result, err := SplitNodesDelimiter([]nodes.TextNode{node}, "`", textTypeCode)
+	result, err := SplitNodesDelimiter([]nodes.TextNode{node}, "`", nodes.Code)
 	if err != nil {
 		t.Errorf("Expected no error, got %v", err)
 	}
 	expected := []nodes.TextNode{
-		{Type: textTypeText, Text: "This is text with a ", URL: ""},
-		{Type: textTypeCode, Text: "code block", URL: ""},
-		{Type: textTypeText, Text: " word", URL: ""},
+		{Type: nodes.Normal, Text: "This is text with a ", URL: ""},
+		{Type: nodes.Code, Text: "code block", URL: ""},
+		{Type: nodes.Normal, Text: " word", URL: ""},
 	}
 	if !reflect.DeepEqual(result, expected) {
 		t.Errorf("Expected %v, got %v", expected, result)
 	}
 
-	// Bold text delimiter
-	textTypeBold := nodes.BoldText
-
 	node = nodes.TextNode{
-		Type: textTypeText,
+		Type: nodes.Normal,
 		Text: "This is **bold** text",
 		URL:  "",
 	}
-	result, err = SplitNodesDelimiter([]nodes.TextNode{node}, "**", textTypeBold)
+	result, err = SplitNodesDelimiter([]nodes.TextNode{node}, "**", nodes.Bold)
 	if err != nil {
 		t.Errorf("Expected no error, got %v", err)
 	}
 	expected = []nodes.TextNode{
-		{Type: textTypeText, Text: "This is ", URL: ""},
-		{Type: textTypeBold, Text: "bold", URL: ""},
-		{Type: textTypeText, Text: " text", URL: ""},
+		{Type: nodes.Normal, Text: "This is ", URL: ""},
+		{Type: nodes.Bold, Text: "bold", URL: ""},
+		{Type: nodes.Normal, Text: " text", URL: ""},
 	}
 	if !reflect.DeepEqual(result, expected) {
 		t.Errorf("Expected %v, got %v", expected, result)
 	}
 
-	// Italic text delimiter
-	textTypeItalic := nodes.ItalicText
-
 	node = nodes.TextNode{
-		Type: textTypeText,
+		Type: nodes.Normal,
 		Text: "This is *italic* text",
 		URL:  "",
 	}
-	result, err = SplitNodesDelimiter([]nodes.TextNode{node}, "*", textTypeItalic)
+	result, err = SplitNodesDelimiter([]nodes.TextNode{node}, "*", nodes.Italic)
 	if err != nil {
 		t.Errorf("Expected no error, got %v", err)
 	}
 	expected = []nodes.TextNode{
-		{Type: textTypeText, Text: "This is ", URL: ""},
-		{Type: textTypeItalic, Text: "italic", URL: ""},
-		{Type: textTypeText, Text: " text", URL: ""},
+		{Type: nodes.Normal, Text: "This is ", URL: ""},
+		{Type: nodes.Italic, Text: "italic", URL: ""},
+		{Type: nodes.Normal, Text: " text", URL: ""},
 	}
 	if !reflect.DeepEqual(result, expected) {
 		t.Errorf("Expected %v, got %v", expected, result)
@@ -74,22 +64,22 @@ func TestSplitNodesDelimiter(t *testing.T) {
 
 	// Unmatched delimiter (should raise an error)
 	node = nodes.TextNode{
-		Type: textTypeText,
+		Type: nodes.Normal,
 		Text: "This is unmatched `code block text",
 		URL:  "",
 	}
-	_, err = SplitNodesDelimiter([]nodes.TextNode{node}, "`", textTypeCode)
+	_, err = SplitNodesDelimiter([]nodes.TextNode{node}, "`", nodes.Code)
 	if err == nil {
 		t.Errorf("Expected error, got none")
 	}
 
 	// No splitting needed (no delimiter present)
 	node = nodes.TextNode{
-		Type: textTypeText,
+		Type: nodes.Normal,
 		Text: "No delimiter here",
 		URL:  "",
 	}
-	result, err = SplitNodesDelimiter([]nodes.TextNode{node}, "`", textTypeCode)
+	result, err = SplitNodesDelimiter([]nodes.TextNode{node}, "`", nodes.Code)
 	if err != nil {
 		t.Errorf("Expected no error, got %v", err)
 	}
@@ -100,30 +90,30 @@ func TestSplitNodesDelimiter(t *testing.T) {
 
 	// Mixed nodes (only "text" nodes are split)
 	node1 := nodes.TextNode{
-		Type: textTypeText,
+		Type: nodes.Normal,
 		Text: "Normal text",
 		URL:  "",
 	}
 	node2 := nodes.TextNode{
-		Type: textTypeBold,
+		Type: nodes.Bold,
 		Text: "**bold** text",
 		URL:  "",
 	}
 	node3 := nodes.TextNode{
-		Type: textTypeText,
+		Type: nodes.Normal,
 		Text: "Code `inline` text",
 		URL:  "",
 	}
-	result, err = SplitNodesDelimiter([]nodes.TextNode{node1, node2, node3}, "`", textTypeCode)
+	result, err = SplitNodesDelimiter([]nodes.TextNode{node1, node2, node3}, "`", nodes.Code)
 	if err != nil {
 		t.Errorf("Expected no error, got %v", err)
 	}
 	expected = []nodes.TextNode{
 		node1,
 		node2,
-		{Type: textTypeText, Text: "Code ", URL: ""},
-		{Type: textTypeCode, Text: "inline", URL: ""},
-		{Type: textTypeText, Text: " text", URL: ""},
+		{Type: nodes.Normal, Text: "Code ", URL: ""},
+		{Type: nodes.Code, Text: "inline", URL: ""},
+		{Type: nodes.Normal, Text: " text", URL: ""},
 	}
 	if !reflect.DeepEqual(result, expected) {
 		t.Errorf("Expected %v, got %v", expected, result)
@@ -172,19 +162,16 @@ func TestExtractMarkdownLinks(t *testing.T) {
 
 func TestSplitNodesImage(t *testing.T) {
 	t.Run("split_nodes_image", func(t *testing.T) {
-		textTypeText := nodes.NormalText
-		textTypeImage := nodes.ImageText
-
 		node := nodes.TextNode{
-			Type: textTypeText,
+			Type: nodes.Normal,
 			Text: "This is text with a ![rick roll](https://i.imgur.com/aKaOqIh.gif) image",
 			URL:  "",
 		}
 		result := SplitNodesImage([]nodes.TextNode{node})
 		expected := []nodes.TextNode{
-			{Type: textTypeText, Text: "This is text with a ", URL: ""},
-			{Type: textTypeImage, Text: "rick roll", URL: "https://i.imgur.com/aKaOqIh.gif"},
-			{Type: textTypeText, Text: " image", URL: ""},
+			{Type: nodes.Normal, Text: "This is text with a ", URL: ""},
+			{Type: nodes.Image, Text: "rick roll", URL: "https://i.imgur.com/aKaOqIh.gif"},
+			{Type: nodes.Normal, Text: " image", URL: ""},
 		}
 		if !reflect.DeepEqual(result, expected) {
 			t.Errorf("Expected %v, got %v", expected, result)
@@ -192,10 +179,8 @@ func TestSplitNodesImage(t *testing.T) {
 	})
 
 	t.Run("split_nodes_image_with_no_images", func(t *testing.T) {
-		textTypeText := nodes.NormalText
-
 		node := nodes.TextNode{
-			Type: textTypeText,
+			Type: nodes.Normal,
 			Text: "This is text with no images",
 			URL:  "",
 		}
@@ -207,16 +192,13 @@ func TestSplitNodesImage(t *testing.T) {
 	})
 
 	t.Run("split_nodes_image_with_mixed_nodes", func(t *testing.T) {
-		textTypeText := nodes.NormalText
-		textTypeImage := nodes.ImageText
-
-		node1 := nodes.TextNode{Type: textTypeText, Text: "Normal text", URL: ""}
-		node2 := nodes.TextNode{Type: textTypeText, Text: "![](https://i.imgur.com/aKaOqIh.gif)", URL: ""}
-		node3 := nodes.TextNode{Type: textTypeText, Text: "Code `inline` text", URL: ""}
+		node1 := nodes.TextNode{Type: nodes.Normal, Text: "Normal text", URL: ""}
+		node2 := nodes.TextNode{Type: nodes.Normal, Text: "![](https://i.imgur.com/aKaOqIh.gif)", URL: ""}
+		node3 := nodes.TextNode{Type: nodes.Normal, Text: "Code `inline` text", URL: ""}
 		result := SplitNodesImage([]nodes.TextNode{node1, node2, node3})
 		expected := []nodes.TextNode{
 			node1,
-			{Type: textTypeImage, Text: "", URL: "https://i.imgur.com/aKaOqIh.gif"},
+			{Type: nodes.Image, Text: "", URL: "https://i.imgur.com/aKaOqIh.gif"},
 			node3,
 		}
 		if !reflect.DeepEqual(result, expected) {
@@ -227,20 +209,17 @@ func TestSplitNodesImage(t *testing.T) {
 
 func TestSplitNodesLink(t *testing.T) {
 	t.Run("split_nodes_link", func(t *testing.T) {
-		textTypeText := nodes.NormalText
-		textTypeLink := nodes.LinkText
-
 		node := nodes.TextNode{
-			Type: textTypeText,
+			Type: nodes.Normal,
 			Text: "This is text with a link [to boot dev](https://www.boot.dev) and [to youtube](https://www.youtube.com/@bootdotdev)",
 			URL:  "",
 		}
 		result := SplitNodesLink([]nodes.TextNode{node})
 		expected := []nodes.TextNode{
-			{Type: textTypeText, Text: "This is text with a link ", URL: ""},
-			{Type: textTypeLink, Text: "to boot dev", URL: "https://www.boot.dev"},
-			{Type: textTypeText, Text: " and ", URL: ""},
-			{Type: textTypeLink, Text: "to youtube", URL: "https://www.youtube.com/@bootdotdev"},
+			{Type: nodes.Normal, Text: "This is text with a link ", URL: ""},
+			{Type: nodes.Link, Text: "to boot dev", URL: "https://www.boot.dev"},
+			{Type: nodes.Normal, Text: " and ", URL: ""},
+			{Type: nodes.Link, Text: "to youtube", URL: "https://www.youtube.com/@bootdotdev"},
 		}
 		if !reflect.DeepEqual(result, expected) {
 			t.Errorf("Expected %v, got %v", expected, result)
@@ -248,10 +227,8 @@ func TestSplitNodesLink(t *testing.T) {
 	})
 
 	t.Run("split_nodes_link_with_no_links", func(t *testing.T) {
-		textTypeText := nodes.NormalText
-
 		node := nodes.TextNode{
-			Type: textTypeText,
+			Type: nodes.Normal,
 			Text: "This is text with no links",
 			URL:  "",
 		}
@@ -263,16 +240,13 @@ func TestSplitNodesLink(t *testing.T) {
 	})
 
 	t.Run("split_nodes_link_with_mixed_nodes", func(t *testing.T) {
-		textTypeText := nodes.NormalText
-		textTypeLink := nodes.LinkText
-
-		node1 := nodes.TextNode{Type: textTypeText, Text: "Normal text", URL: ""}
-		node2 := nodes.TextNode{Type: textTypeText, Text: "[to boot dev](https://www.boot.dev)", URL: ""}
-		node3 := nodes.TextNode{Type: textTypeText, Text: "Code `inline` text", URL: ""}
+		node1 := nodes.TextNode{Type: nodes.Normal, Text: "Normal text", URL: ""}
+		node2 := nodes.TextNode{Type: nodes.Normal, Text: "[to boot dev](https://www.boot.dev)", URL: ""}
+		node3 := nodes.TextNode{Type: nodes.Normal, Text: "Code `inline` text", URL: ""}
 		result := SplitNodesLink([]nodes.TextNode{node1, node2, node3})
 		expected := []nodes.TextNode{
 			node1,
-			{Type: textTypeLink, Text: "to boot dev", URL: "https://www.boot.dev"},
+			{Type: nodes.Link, Text: "to boot dev", URL: "https://www.boot.dev"},
 			node3,
 		}
 		if !reflect.DeepEqual(result, expected) {
@@ -282,26 +256,19 @@ func TestSplitNodesLink(t *testing.T) {
 }
 
 func TestTextToTextNodes(t *testing.T) {
-	textTypeText := nodes.NormalText
-	textTypeBold := nodes.BoldText
-	textTypeItalic := nodes.ItalicText
-	textTypeCode := nodes.CodeText
-	textTypeImage := nodes.ImageText
-	textTypeLink := nodes.LinkText
-
 	text := "This is **text** with an *italic* word and a `code block` and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a [link](https://boot.dev)"
 	result := TextToTextNodes(text)
 	expected := []nodes.TextNode{
-		{Type: textTypeText, Text: "This is ", URL: ""},
-		{Type: textTypeBold, Text: "text", URL: ""},
-		{Type: textTypeText, Text: " with an ", URL: ""},
-		{Type: textTypeItalic, Text: "italic", URL: ""},
-		{Type: textTypeText, Text: " word and a ", URL: ""},
-		{Type: textTypeCode, Text: "code block", URL: ""},
-		{Type: textTypeText, Text: " and an ", URL: ""},
-		{Type: textTypeImage, Text: "obi wan image", URL: "https://i.imgur.com/fJRm4Vk.jpeg"},
-		{Type: textTypeText, Text: " and a ", URL: ""},
-		{Type: textTypeLink, Text: "link", URL: "https://boot.dev"},
+		{Type: nodes.Normal, Text: "This is ", URL: ""},
+		{Type: nodes.Bold, Text: "text", URL: ""},
+		{Type: nodes.Normal, Text: " with an ", URL: ""},
+		{Type: nodes.Italic, Text: "italic", URL: ""},
+		{Type: nodes.Normal, Text: " word and a ", URL: ""},
+		{Type: nodes.Code, Text: "code block", URL: ""},
+		{Type: nodes.Normal, Text: " and an ", URL: ""},
+		{Type: nodes.Image, Text: "obi wan image", URL: "https://i.imgur.com/fJRm4Vk.jpeg"},
+		{Type: nodes.Normal, Text: " and a ", URL: ""},
+		{Type: nodes.Link, Text: "link", URL: "https://boot.dev"},
 	}
 
 	if !reflect.DeepEqual(result, expected) {

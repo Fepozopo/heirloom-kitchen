@@ -6,19 +6,19 @@ import (
 
 func TestTextNodeEquals(t *testing.T) {
 	node1 := TextNode{
-		Type: LinkText,
+		Type: Link,
 		Text: "This is some anchor text",
 		URL:  "https://www.boot.dev",
 	}
 
 	node2 := TextNode{
-		Type: BoldText,
+		Type: Bold,
 		Text: "This is some bold text",
 		URL:  "",
 	}
 
 	node3 := TextNode{
-		Type: LinkText,
+		Type: Link,
 		Text: "This is some anchor text",
 		URL:  "https://www.boot.dev",
 	}
@@ -34,7 +34,7 @@ func TestTextNodeEquals(t *testing.T) {
 
 func TestTextNodeString(t *testing.T) {
 	node := TextNode{
-		Type: LinkText,
+		Type: Link,
 		Text: "Anchor text",
 		URL:  "https://www.boot.dev",
 	}

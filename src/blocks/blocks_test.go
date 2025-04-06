@@ -60,3 +60,63 @@ func TestMarkdownToBlocks(t *testing.T) {
 		})
 	}
 }
+
+func TestBlockToBlockType(t *testing.T) {
+	tests := []struct {
+		block string
+		want  BlockType
+	}{
+		{
+			block: "* This is the first list item in a list block\n* This is a list item\n* This is another list item",
+			want:  UnorderedList,
+		},
+		{
+			block: "# This is a heading",
+			want:  Heading,
+		},
+		{
+			block: "* This is a list item",
+			want:  UnorderedList,
+		},
+		{
+			block: "1. This is a list item\n2. This is another list item",
+			want:  OrderedList,
+		},
+		{
+			block: "```This is a code block```",
+			want:  Code,
+		},
+		{
+			block: "> This is a quote",
+			want:  Quote,
+		},
+		{
+			block: "This is a paragraph of text",
+			want:  Paragraph,
+		},
+		{
+			// Invalid list item format
+			block: "1. This is a list item\n1. This is another list item",
+			want:  Paragraph,
+		},
+		{
+			// Invalid heading format
+			block: "#This is a heading",
+			want:  Paragraph,
+		},
+		{
+			// Invalid code block format
+			block: "```This is a code block",
+			want:  Paragraph,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.block, func(t *testing.T) {
+			got := BlockToBlockType(tt.block)
+			if got != tt.want {
+				t.Errorf("BlockToBlockType(%q) = %q, want %q", tt.block, got, tt.want)
+			}
+		})
+	}
+}

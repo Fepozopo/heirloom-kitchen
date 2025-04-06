@@ -5,12 +5,12 @@ import "fmt"
 type TextType int
 
 const (
-	NormalText TextType = iota
-	BoldText
-	ItalicText
-	CodeText
-	LinkText
-	ImageText
+	Normal TextType = iota
+	Bold
+	Italic
+	Code
+	Link
+	Image
 )
 
 type TextNode struct {
@@ -29,17 +29,17 @@ func (tn TextNode) String() string {
 	// Convert TextType to its string representation
 	typeStr := ""
 	switch tn.Type {
-	case NormalText:
+	case Normal:
 		typeStr = "text"
-	case BoldText:
+	case Bold:
 		typeStr = "bold"
-	case ItalicText:
+	case Italic:
 		typeStr = "italic"
-	case CodeText:
+	case Code:
 		typeStr = "code"
-	case LinkText:
+	case Link:
 		typeStr = "link"
-	case ImageText:
+	case Image:
 		typeStr = "image"
 	default:
 		typeStr = "unknown"

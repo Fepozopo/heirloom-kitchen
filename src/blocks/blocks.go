@@ -2,8 +2,42 @@ package blocks
 
 import (
 	"regexp"
+	"strconv"
 	"strings"
 )
+
+type BlockType int
+
+const (
+	Paragraph BlockType = iota
+	Heading
+	Code
+	Quote
+	UnorderedList
+	OrderedList
+)
+
+// String method to return a string representation of the BlockType object
+func (bt BlockType) String() string {
+	typeStr := ""
+	switch bt {
+	case Paragraph:
+		typeStr = "paragraph"
+	case Heading:
+		typeStr = "heading"
+	case Code:
+		typeStr = "code"
+	case Quote:
+		typeStr = "quote"
+	case UnorderedList:
+		typeStr = "unordered_list"
+	case OrderedList:
+		typeStr = "ordered_list"
+	default:
+		typeStr = "unknown"
+	}
+	return typeStr
+}
 
 // MarkdownToBlocks takes a raw markdown string and returns a list of "block" strings.
 func MarkdownToBlocks(markdown string) []string {
@@ -30,4 +64,61 @@ func MarkdownToBlocks(markdown string) []string {
 	}
 
 	return blocks
+}
+
+// BlockToBlockType takes a single block of markdown text as input and returns the BlockType it represents.
+func BlockToBlockType(block string) BlockType {
+	// Check for headings (1-6 # followed by a space)
+	if matched, _ := regexp.MatchString(`^#{1,6} .+`, block); matched {
+		return Heading
+	}
+
+	// Split the block into lines for further processing
+	lines := strings.Split(block, "\n")
+
+	// Check if the block is an unordered list. Every line in an unordered list block must start with *, -, or + followed by a space.
+	unorderedList := true
+	unorderedListRegex := regexp.MustCompile(`^(\*|\-|\+)\s`)
+	for _, line := range lines {
+		if !unorderedListRegex.MatchString(line) {
+			unorderedList = false
+			break
+		}
+	}
+	if unorderedList {
+		return UnorderedList
+	}
+
+	// Check if the block is an ordered list. Every line in an ordered list block must start with a number followed by a . and a space.
+	orderedList := true
+	for i, line := range lines {
+		match := regexp.MustCompile(`^(\d+)\.\s`).FindStringSubmatch(line)
+		if match == nil || match[1] != strconv.Itoa(i+1) {
+			orderedList = false
+			break
+		}
+	}
+	if orderedList {
+		return OrderedList
+	}
+
+	// Check if the block is a code block. Code blocks must start and end with 3 backticks.
+	if strings.HasPrefix(block, "```") && strings.HasSuffix(block, "```") {
+		return Code
+	}
+
+	// Check if the block is a quote. Every line in a quote block must start with > followed by a space.
+	quote := true
+	for _, line := range lines {
+		if !strings.HasPrefix(line, "> ") {
+			quote = false
+			break
+		}
+	}
+	if quote {
+		return Quote
+	}
+
+	// If none of the above, the block is a paragraph
+	return Paragraph
 }
