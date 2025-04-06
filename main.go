@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/Fepozopo/heirloom-kitchen/src/website"
+	"github.com/Fepozopo/pantry-of-the-past/src/website"
 )
 
 func main() {

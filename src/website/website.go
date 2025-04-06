@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/Fepozopo/heirloom-kitchen/src/blocks"
+	"github.com/Fepozopo/pantry-of-the-past/src/blocks"
 )
 
 // CopyStaticToPublic copies all the contents of the static directory to the public directory recursively.

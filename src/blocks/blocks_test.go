@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/Fepozopo/heirloom-kitchen/src/nodes"
+	"github.com/Fepozopo/pantry-of-the-past/src/nodes"
 )
 
 // Unit tests for MarkdownToBlocks

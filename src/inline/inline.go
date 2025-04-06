@@ -5,7 +5,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/Fepozopo/heirloom-kitchen/src/nodes"
+	"github.com/Fepozopo/pantry-of-the-past/src/nodes"
 )
 
 // SplitNodesDelimiter splits a list of nodes based on a delimiter
