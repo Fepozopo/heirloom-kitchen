@@ -52,7 +52,34 @@ func MarkdownToBlocks(markdown string) []string {
 	for i, line := range lines {
 		lines[i] = strings.TrimLeft(line, " ")
 	}
-	markdown = strings.Join(lines, "\n")
+
+	// Merge consecutive lines starting with "> " into a single block
+	mergedLines := []string{}
+	currentBlock := ""
+	for _, line := range lines {
+		if strings.HasPrefix(line, "> ") {
+			// If the line starts with "> ", append it to the current block
+			if currentBlock != "" {
+				currentBlock += "\n" + line
+			} else {
+				currentBlock = line
+			}
+		} else {
+			// If the line doesn't start with "> ", finalize the current block
+			if currentBlock != "" {
+				mergedLines = append(mergedLines, currentBlock)
+				currentBlock = ""
+			}
+			mergedLines = append(mergedLines, line)
+		}
+	}
+	// Add the last block if it exists
+	if currentBlock != "" {
+		mergedLines = append(mergedLines, currentBlock)
+	}
+
+	// Join the merged lines back into a single string
+	markdown = strings.Join(mergedLines, "\n")
 
 	// Remove any "empty" blocks due to excessive newlines
 	re := regexp.MustCompile(`\n{3,}`)
@@ -190,15 +217,20 @@ func BlockToHTMLNode(block string) nodes.HTMLNode {
 		}
 
 	case Quote:
-		quoteContent := strings.Join(func(lines []string) []string {
-			for i, line := range lines {
-				lines[i] = strings.TrimSpace(line[2:])
-			}
-			return lines
-		}(strings.Split(block, "\n")), "\n")
+		// Preserve line breaks within the blockquote
+		lines := strings.Split(block, "\n")
+		quoteContent := []nodes.HTMLNode{}
+		for _, line := range lines {
+			trimmedLine := strings.TrimSpace(line[2:]) // Remove "> " prefix
+			quoteContent = append(quoteContent, &nodes.LeafNode{
+				Tag:   "p",
+				Value: trimmedLine,
+				Props: nil,
+			})
+		}
 		return &nodes.ParentNode{
 			Tag:      "blockquote",
-			Children: TextToChildren(quoteContent),
+			Children: quoteContent,
 		}
 
 	default:
