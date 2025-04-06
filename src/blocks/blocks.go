@@ -5,8 +5,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/Fepozopo/pantry-of-the-past/src/inline"
-	"github.com/Fepozopo/pantry-of-the-past/src/nodes"
+	"github.com/Fepozopo/culinary-keepsakes/src/inline"
+	"github.com/Fepozopo/culinary-keepsakes/src/nodes"
 )
 
 type BlockType int

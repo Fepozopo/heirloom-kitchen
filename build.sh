@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Replace "REPO_NAME" with your actual GitHub repository name
-REPO_NAME="/pantry-of-the-past/"
+REPO_NAME="/culinary-keepsakes/"
 
 # Compile the Go application
-go build -o bin/pantry src/main.go
+go build -o bin/app src/main.go
 
 # Check if the build was successful
 if [ $? -ne 0 ]; then
@@ -12,7 +12,7 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 # Check if the compiled application exists
-if [ ! -f bin/pantry ]; then
+if [ ! -f bin/app ]; then
     echo "Compiled application not found."
     exit 1
 fi
@@ -26,4 +26,4 @@ echo "Build successful."
 echo "Running the application with repository name: $REPO_NAME"
 
 # Execute the compiled application with the repository name as an argument
-./bin/pantry "$REPO_NAME"
+./bin/app "$REPO_NAME"

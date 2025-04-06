@@ -7,7 +7,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/Fepozopo/pantry-of-the-past/src/website"
+	"github.com/Fepozopo/culinary-keepsakes/src/website"
 )
 
 func main() {
