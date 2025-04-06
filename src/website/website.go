@@ -14,7 +14,7 @@ import (
 // CopyStaticToPublic copies all the contents of the static directory to the public directory recursively.
 func CopyStaticToPublic() error {
 	staticPath := "static"
-	publicPath := "public"
+	publicPath := "docs"
 
 	// Remove all contents of the public directory if it exists
 	if _, err := os.Stat(publicPath); err == nil {
@@ -91,8 +91,11 @@ func ExtractTitle(markdown string) (string, error) {
 	return "", errors.New("no h1 header found")
 }
 
-// GeneratePage generates a new HTML page from a template file and saves it to a destination file.
-func GeneratePage(fromPath, templatePath, destPath string) error {
+// GeneratePage generates an HTML page from a markdown file using a template.
+// It reads the markdown file, converts it to HTML, and replaces placeholders in the template.
+// The generated HTML is written to the destination path.
+// The basepath is used to replace href and src attributes in the generated HTML.
+func GeneratePage(fromPath, templatePath, destPath, basepath string) error {
 	// Print a message to indicate that the page is being generated
 	fmt.Printf("Generating page: %s -> %s using template: %s\n", fromPath, destPath, templatePath)
 
@@ -125,6 +128,10 @@ func GeneratePage(fromPath, templatePath, destPath string) error {
 	result := strings.ReplaceAll(string(template), "{{ Title }}", title)
 	result = strings.ReplaceAll(result, "{{ Content }}", html)
 
+	// Replace href and src attributes with basepath
+	result = strings.ReplaceAll(result, "href=\"/", fmt.Sprintf("href=\"%s", basepath))
+	result = strings.ReplaceAll(result, "src=\"/", fmt.Sprintf("src=\"%s", basepath))
+
 	// Write the result to the destination file
 	err = os.WriteFile(destPath, []byte(result), 0644)
 	if err != nil {
@@ -134,9 +141,10 @@ func GeneratePage(fromPath, templatePath, destPath string) error {
 	return nil
 }
 
-// GeneratePagesRecursive crawls every entry in the content directory and generates a new HTML page
-// for each markdown file it finds using the same template. The generated pages are stored in the destDirPath directory.
-func GeneratePagesRecursive(contentDirPath, templatePath, destDirPath string) error {
+// GeneratePagesRecursive generates HTML pages from markdown files in the content directory recursively.
+// It uses the specified template and writes the output to the destination directory.
+// The basepath is used to replace href and src attributes in the generated HTML.
+func GeneratePagesRecursive(contentDirPath, templatePath, destDirPath, basepath string) error {
 	// Ensure the destination directory exists
 	err := os.MkdirAll(destDirPath, os.ModePerm)
 	if err != nil {
@@ -166,7 +174,7 @@ func GeneratePagesRecursive(contentDirPath, templatePath, destDirPath string) er
 				return err
 			}
 			outputFile := filepath.Join(destDirPath, strings.TrimSuffix(relPath, ".md")+".html")
-			return GeneratePage(path, templatePath, outputFile)
+			return GeneratePage(path, templatePath, outputFile, basepath)
 		}
 
 		return nil
