@@ -1,6 +1,7 @@
 package nodes
 
 import (
+	"strings"
 	"testing"
 )
 
@@ -19,6 +20,28 @@ func TestLeafNodeToHTML(t *testing.T) {
 	expected := "<p>This is a paragraph of text</p>"
 	if html != expected {
 		t.Errorf("Expected %s, got %s", expected, html)
+	}
+
+	// Test with image
+	lImage := &LeafNode{
+		Tag:   "img",
+		Value: "",
+		Props: map[string]string{"src": "image.png", "alt": "An image"},
+	}
+
+	htmlImage, err := lImage.ToHTML()
+	if err != nil {
+		t.Errorf("Expected no error, got %v", err)
+	}
+
+	// Check that the generated HTML contains the expected attributes
+	if !strings.Contains(htmlImage, `src="image.png"`) || !strings.Contains(htmlImage, `alt="An image"`) {
+		t.Errorf("Expected HTML to contain src and alt attributes, got %s", htmlImage)
+	}
+
+	// Ensure the tag is self-closing
+	if !strings.HasPrefix(htmlImage, "<img") || !strings.HasSuffix(htmlImage, "/>") {
+		t.Errorf("Expected a self-closing <img> tag, got %s", htmlImage)
 	}
 }
 

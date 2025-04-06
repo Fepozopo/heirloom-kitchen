@@ -2,6 +2,7 @@ package website
 
 import (
 	"errors"
+	"fmt"
 	"io"
 	"os"
 	"path/filepath"
@@ -88,4 +89,47 @@ func ExtractTitle(markdown string) (string, error) {
 
 	// If no h1 header is found, return an error
 	return "", errors.New("no h1 header found")
+}
+
+// GeneratePage generates a new HTML page from a template file and saves it to a destination file.
+func GeneratePage(fromPath, templatePath, destPath string) error {
+	// Print a message to indicate that the page is being generated
+	fmt.Printf("Generating page: %s -> %s using template: %s\n", fromPath, destPath, templatePath)
+
+	// Read the markdown file at fromPath
+	markdown, err := os.ReadFile(fromPath)
+	if err != nil {
+		return fmt.Errorf("failed to read markdown file: %w", err)
+	}
+
+	// Read the template file
+	template, err := os.ReadFile(templatePath)
+	if err != nil {
+		return fmt.Errorf("failed to read template file: %w", err)
+	}
+
+	// Convert the markdown to an HTML string
+	htmlNode := blocks.MarkdownToHTMLNode(string(markdown))
+	html, err := htmlNode.ToHTML()
+	if err != nil {
+		return fmt.Errorf("failed to convert markdown to HTML: %w", err)
+	}
+
+	// Extract the title from the markdown
+	title, err := ExtractTitle(string(markdown))
+	if err != nil {
+		return fmt.Errorf("failed to extract title: %w", err)
+	}
+
+	// Replace the placeholders in the template with the extracted title and HTML string
+	result := strings.ReplaceAll(string(template), "{{ Title }}", title)
+	result = strings.ReplaceAll(result, "{{ Content }}", html)
+
+	// Write the result to the destination file
+	err = os.WriteFile(destPath, []byte(result), 0644)
+	if err != nil {
+		return fmt.Errorf("failed to write to destination file: %w", err)
+	}
+
+	return nil
 }

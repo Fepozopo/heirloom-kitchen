@@ -41,10 +41,18 @@ func (l *LeafNode) ToHTML() (string, error) {
 	if l.Tag == "" {
 		return l.Value, nil
 	}
-	// Ensure that value is not empty
+
+	// Special case for <img> tags, which are self-closing and don't require a value
+	if l.Tag == "img" {
+		attrStr := PropsToHTML(l.Props)
+		return fmt.Sprintf("<%s %s />", l.Tag, attrStr), nil
+	}
+
+	// Ensure that value is not empty for other tags
 	if l.Value == "" {
 		return "", errors.New("the value of a leaf node cannot be empty")
 	}
+
 	attrStr := PropsToHTML(l.Props)
 	if attrStr != "" {
 		return fmt.Sprintf("<%s %s>%s</%s>", l.Tag, attrStr, l.Value, l.Tag), nil
