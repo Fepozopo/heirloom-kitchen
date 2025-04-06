@@ -237,6 +237,11 @@ func BlockToHTMLNode(block string) nodes.HTMLNode {
 						Value: "",
 						Props: nil,
 					})
+					quoteContent = append(quoteContent, &nodes.LeafNode{
+						Tag:   "br",
+						Value: "",
+						Props: nil,
+					})
 					currentParagraph = ""
 				}
 			} else {
