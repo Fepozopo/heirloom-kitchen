@@ -31,4 +31,8 @@ This is a recipe for candied cherry cookies. It is a family recipe that my grand
 8. Cut into 1/8 inch slices and place on ungreased cookie sheet
 9. Bake at 325 for 13-15 minutes until delicately browned on edges
 
+### Notes
+
+My grandma would always make these without the pecans, and they were still delicious, so you can leave them out if you prefer. Additionally, you can experiment with different types of nuts.
+
 [Home](/index.html)
