@@ -1,10 +1,12 @@
 # Culinary Keepsakes
 
-Culinary Keepsakes is a project designed to store recipes I've came across over the years that I thought were worth saving. For questions or feedback, please reach out to [Fepozopo](https://github.com/Fepozopo).
+Culinary Keepsakes is a project designed to store recipes I've came across over the years that I thought were worth saving.
 
 ## Features
 
-- Right now, the project is just a static recipe storage application.
+- Store and manage recipes using markdown files.
+- View recipes in a user-friendly interface.
+- Customizable build process using `build.sh`.
 
 ## Installation
 
