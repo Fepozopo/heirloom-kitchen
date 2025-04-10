@@ -1,12 +1,13 @@
 # Pinto Beans
 
-##### Tom Shoaf
+##### Aaron Franklin
 
 ![Pinto Beans](/images/pinto-beans.jpg)
 
 ### Description
 
 This is a recipe for some pinto beans that is both nutritious and easy to prepare. It is a great recipe for anyone looking to make a healthy meal. The recipe is easy to follow and the end result is delicious. The pinto beans are hearty, flavorful, and have a nice texture. They are perfect for dinner or as a side dish.
+I was introduced to this recipe by a co-worker but the original recipe can be found at [Homesick Texan](https://www.homesicktexan.com/pinto-beans-aaron-franklin-barbecue/)
 
 ### Ingredients
 

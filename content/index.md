@@ -6,9 +6,9 @@ This is a collection of recipes that I have come across in my life. Some are my 
 
 ## Recipes
 
-- [Bread, Banana: Pernilla Stryker](/recipes/bread/banana/pernilla-stryker)
+- [Banana Bread: Pernilla Stryker](/recipes/bread/banana/pernilla-stryker)
+- [Candied Cherry Cookies: Jean Navin](/recipes/cookie/candied-cherry/jean-navin)
 - [Chicken Enchilada: Melissa Navin](/recipes/chicken-enchilada/melissa-navin)
-- [Cookie, Candied Cherry: Jean Navin](/recipes/cookie/candied-cherry/jean-navin)
-- [Pinto Beans: Tom Shoaf](/recipes/pinto-beans/tom-shoaf)
+- [Pinto Beans: Aaron Franklin](/recipes/pinto-beans/aaron-franklin)
 
 Want to get in touch? [Contact me here](/contact).
