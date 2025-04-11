@@ -10,5 +10,6 @@ This is a collection of recipes that I have come across in my life. Some are my 
 - [Candied Cherry Cookies: Jean Navin](/recipes/candied-cherry-cookies/jean-navin)
 - [Chicken Enchilada: Melissa Navin](/recipes/chicken-enchilada/melissa-navin)
 - [Pinto Beans: Aaron Franklin](/recipes/pinto-beans/aaron-franklin)
+- [Pistachio Bread: Renee DuPrey](/recipes/pistachio-bread/renee-duprey)
 
 Want to get in touch? [Contact me here](/contact).
