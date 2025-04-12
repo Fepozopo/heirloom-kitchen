@@ -2,7 +2,7 @@
 
 ##### Jean Navin
 
-![Candied Cherry Cookies](/images/candied_cherry-cookies.jpg)
+![Candied Cherry Cookies](/images/candied-cherry-cookies.jpg)
 
 ### Description
 
