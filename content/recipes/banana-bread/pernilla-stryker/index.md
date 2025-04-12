@@ -2,7 +2,7 @@
 
 ##### Pernilla Stryker
 
-![Banana Bread](/images/bread-banana.png)
+![Banana Bread](/images/banana-bread.jpg)
 
 ### Description
 
