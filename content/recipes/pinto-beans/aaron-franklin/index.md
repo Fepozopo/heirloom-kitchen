@@ -2,7 +2,7 @@
 
 ##### Aaron Franklin
 
-![Pinto Beans](/images/pinto-beans.jpg)
+![Pinto Beans](/images/pinto-beans.webp)
 
 ### Description
 

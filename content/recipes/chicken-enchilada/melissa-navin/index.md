@@ -2,7 +2,7 @@
 
 ##### Melissa Navin
 
-![Chicken Enchilada](/images/chicken-enchilada.jpg)
+![Chicken Enchilada](/images/chicken-enchilada.webp)
 
 ### Description
 

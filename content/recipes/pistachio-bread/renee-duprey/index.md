@@ -2,7 +2,7 @@
 
 ##### Renee DuPrey
 
-![Pistachio Bread](/images/pistachio-bread.jpg)
+![Pistachio Bread](/images/pistachio-bread.webp)
 
 ### Description
 
