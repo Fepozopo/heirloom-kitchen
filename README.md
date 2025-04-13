@@ -1,6 +1,5 @@
 # Culinary Keepsakes
-
-Culinary Keepsakes is a project designed to store recipes I've came across over the years that I thought were worth saving.
+Culinary Keepsakes is a project designed to store recipes I've come across over the years that I thought were worth saving.
 
 ## Features
 
@@ -21,11 +20,13 @@ Culinary Keepsakes is a project designed to store recipes I've came across over 
 
 ## Usage
 
-1. Start the development server:
+1. Build the project using the updated `build.sh` script:
     ```bash
     ./build.sh
     ```
-2. Open your browser and navigate to `http://localhost:8080/culinary-keepsakes/`.
+    The script will generate the necessary files and start a local server.
+2. Place any new images in the `new_images` folder before running the build script. This ensures they are processed and included correctly.
+3. Open your browser and navigate to `http://localhost:8080/`.
 
 ## Contributing
 
