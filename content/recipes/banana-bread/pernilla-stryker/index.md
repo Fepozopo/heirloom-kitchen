@@ -1,6 +1,9 @@
 # Banana Bread
 
-##### Pernilla Stryker
+<div style="display: flex; justify-content: space-between; align-items: center;">
+  <span style="font-size: 1.5em; font-weight: bold;">Pernilla Stryker</span>
+  <a href="/" style="font-size: 1em; color: #a33; text-decoration: none; font-weight: bold;">HOME</a>
+</div>
 
 ![Banana Bread](/images/banana-bread.webp)
 
@@ -29,5 +32,3 @@ It is a great recipe for anyone looking to make a healthier version of banana br
 3. While stirring, slowly pour the dry ingredients into the wet ingredients
 4. Line a baking pan with parchment paper and put the mix into the pan
 5. Bake at 350 degrees for 30-40 minutes
-
-[Home](/index.html)

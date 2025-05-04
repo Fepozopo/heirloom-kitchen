@@ -1,6 +1,9 @@
 # Chicken Enchilada
 
-##### Melissa Navin
+<div style="display: flex; justify-content: space-between; align-items: center;">
+  <span style="font-size: 1.5em; font-weight: bold;">Melissa Navin</span>
+  <a href="/" style="font-size: 1em; color: #a33; text-decoration: none; font-weight: bold;">HOME</a>
+</div>
 
 ![Chicken Enchilada](/images/chicken-enchilada.webp)
 
@@ -24,5 +27,3 @@ This is a recipe for a chicken enchilada served with tortilla chips. This is to 
 1. Combine first 8 ingredients in a small crock-pot
 2. Heat on low until heated through
 3. Serve with tortilla chips
-
-[Home](/index.html)

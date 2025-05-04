@@ -1,6 +1,9 @@
 # Pinto Beans
 
-##### Aaron Franklin
+<div style="display: flex; justify-content: space-between; align-items: center;">
+  <span style="font-size: 1.5em; font-weight: bold;">Aaron Franklin</span>
+  <a href="/" style="font-size: 1em; color: #a33; text-decoration: none; font-weight: bold;">HOME</a>
+</div>
 
 ![Pinto Beans](/images/pinto-beans.webp)
 
@@ -31,5 +34,3 @@ I was introduced to this recipe by a co-worker but the original recipe can be fo
 ### Notes
 
 If you’re not using kosher salt but table salt or sea salt instead, reduce the amount of salt to 1 tablespoon, otherwise the beans may be too salty.
-
-[Home](/index.html)

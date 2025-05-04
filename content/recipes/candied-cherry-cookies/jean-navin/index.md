@@ -1,6 +1,9 @@
 # Candied Cherry Cookies
 
-##### Jean Navin
+<div style="display: flex; justify-content: space-between; align-items: center;">
+  <span style="font-size: 1.5em; font-weight: bold;">Jean Navin</span>
+  <a href="/" style="font-size: 1em; color: #a33; text-decoration: none; font-weight: bold;">HOME</a>
+</div>
 
 ![Candied Cherry Cookies](/images/candied-cherry-cookies.webp)
 
@@ -34,5 +37,3 @@ This is a recipe for candied cherry cookies. It is a family recipe that my grand
 ### Notes
 
 My grandma would always make these without the pecans, and they were still delicious, so you can leave them out if you prefer. Additionally, you can experiment with different types of nuts.
-
-[Home](/index.html)
