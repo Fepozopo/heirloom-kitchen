@@ -23,7 +23,7 @@ I found this recipe on Peet's website and modified it to fit my taste. You can f
 
 ### Steps
 
-1. Brew thee coffee with the water using your favorite method.
+1. Brew the coffee with the water using your favorite method.
 2. Add the coffee, and chicory syrup to a measuring cup or glass. Stir to combine and set aside.
 3. Measure sweetened condensed milk into a serving glass. Fill glass with ice.
 4. Pour coffee mixture over ice.

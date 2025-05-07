@@ -15,14 +15,15 @@ I found this recipe on Peet's website and modified it to fit my taste. You can f
 ### Ingredients
 
 * 2 tablespoons ground coffee
+* Filtered water
 * 2 tablespoons lavender syrup
 * 6 ounces almond milk
 * Ice
 
 ### Steps
 
-1. Brew thee coffee with the water using your favorite method.
-2. Add the coffee to a glass and fill with ice.
+1. Use to coffee and water to prepare espresso.
+2. Add the espresso to a glass.
 3. Add almond milk and syrup to a jar with a tight-fitting lid. Shake vigorously until foamy.
 4. Pour sweetened almond milk into glass, stir, and enjoy. 
 
