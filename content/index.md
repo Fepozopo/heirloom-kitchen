@@ -7,7 +7,7 @@ This is a collection of recipes that I have come across in my life. Some are my 
 
 <div style="display: flex; justify-content: space-between; align-items: center;">
   <span style="font-size: 1.5em; font-weight: bold;">Most Recent Recipes</span>
-  <a href="/all-recipes/" style="font-size: 1em; color: #a33; text-decoration: none; font-weight: bold;">ALL RECIPES &gt;&gt;</a>
+  <a href="/all-recipes/" style="font-size: 1em; text-decoration: none; font-weight: bold;">ALL RECIPES &gt;&gt;</a>
 </div>
 
 <div style="display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); gap: 1.5em; margin-top: 2em; margin-bottom: 2em;">
