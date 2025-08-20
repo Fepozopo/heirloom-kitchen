@@ -31,7 +31,7 @@ find "$SOURCE_DIR" -maxdepth 1 -type f -name "*.png" -o -name "*.jpeg" -o -name 
   echo "Processing: $FILE -> $OUTPUT_FILE"
   magick "$FILE" -strip -quality "$QUALITY" "$OUTPUT_FILE"
 
-  # Check if the conversion was successful (optional)
+  # Check if the conversion was successful
   if [ $? -eq 0 ]; then
     echo "Successfully converted: $OUTPUT_FILE"
   else
